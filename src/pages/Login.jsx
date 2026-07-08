@@ -25,8 +25,7 @@ export default function Login() {
     <div className={`container ${styles.wrap}`}>
       <h1>Log in</h1>
       <p className={styles.blurb}>
-        This is a demo app with no real accounts or passwords. Pick any account
-        below to log in as that person — that's the whole flow.
+        <blockquote>Please select an account to continue.</blockquote>
       </p>
 
       <form className={styles.form} onSubmit={handleSubmit}>

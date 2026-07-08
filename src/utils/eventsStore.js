@@ -17,6 +17,20 @@ function readCustomEvents() {
   }
 }
 
+function writeCustomEvents(list) {
+  localStorage.setItem(CUSTOM_EVENTS_KEY, JSON.stringify(list));
+  // The native "storage" event only fires in *other* tabs, not the one
+  // that made the change, so we also dispatch a same-tab custom event.
+  // Components that want to stay in sync with edits/deletes made
+  // elsewhere (e.g. the Dashboard) can do:
+  //   useEffect(() => {
+  //     const onUpdate = () => setEvents(getAllEvents());
+  //     window.addEventListener("campushub:events-updated", onUpdate);
+  //     return () => window.removeEventListener("campushub:events-updated", onUpdate);
+  //   }, []);
+  window.dispatchEvent(new CustomEvent("campushub:events-updated"));
+}
+
 /** Just the admin-created events. */
 export function getCustomEvents() {
   return readCustomEvents();
@@ -43,13 +57,13 @@ export function saveCustomEvent(event) {
     all.push(eventToSave);
   }
 
-  localStorage.setItem(CUSTOM_EVENTS_KEY, JSON.stringify(all));
+  writeCustomEvents(all);
   return eventToSave;
 }
 
 /** Delete a custom event by id (does nothing to seed events). */
 export function deleteCustomEvent(eventId) {
   const remaining = readCustomEvents().filter((e) => e.id !== eventId);
-  localStorage.setItem(CUSTOM_EVENTS_KEY, JSON.stringify(remaining));
+  writeCustomEvents(remaining);
   return remaining;
 }
