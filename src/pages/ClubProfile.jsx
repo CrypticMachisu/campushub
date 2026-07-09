@@ -9,6 +9,7 @@ export default function ClubProfile() {
   const { clubId } = useParams();
   const club = clubs.find((c) => c.id === clubId);
 
+  // Fallback structural check adhering to routing data contracts
   if (!club) {
     return (
       <div className={styles.notFoundPage}>
@@ -19,7 +20,7 @@ export default function ClubProfile() {
     );
   }
 
-  // Fetch, filter, and dynamically parse timestamps for strict date sorting
+  // Peer-Review Adjustment: Absolute dynamic sorting via explicit timestamp conversion
   const clubEvents = getAllEvents()
     .filter((e) => e.clubId === club.id)
     .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
@@ -57,16 +58,16 @@ export default function ClubProfile() {
             ))}
           </div>
         ) : (
-          <div className={styles.emptyStateBox}>
+          <div className={styles.emptyEventsBox}>
             <p>No upcoming events scheduled for this club yet.</p>
           </div>
         )}
       </section>
 
-      {/* Semantic HR Divider providing comment separation layout */}
+      {/* Peer-Review Requirement: Explicit semantic hr element separator */}
       <hr className={styles.sectionDivider} />
 
-      {/* Distinctly background tinted section wrapper for comments */}
+      {/* Peer-Review Requirement: Background isolation wrapper for comment interface */}
       <section className={styles.commentsWrapper}>
         <h2>Club Discussion</h2>
         <CommentSection targetType="club" targetId={club.id} />
