@@ -1,6 +1,32 @@
+<<<<<<< HEAD
+=======
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+>>>>>>> d193ed0544d1f5ae4b25f70b8998c10b3705e9fb
 node_modules
 dist
 dist-ssr
 *.local
+<<<<<<< HEAD
 .DS_Store
 .env
+=======
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+>>>>>>> d193ed0544d1f5ae4b25f70b8998c10b3705e9fb
