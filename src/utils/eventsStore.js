@@ -1,62 +1,69 @@
-// src/utils/eventsStore.js
-// Owned by Person 1 per 00-shared-contracts.md §4D. This is a proposed patch
-// adding the delete function the peer review flagged as missing, plus a
-// same-tab broadcast so other components can react to changes without a
-// global state library (see Deliberation Summary).
-//
-// >>> Coordinate with Person 1 before merging — this touches their file. <
+// Combines the static seed events with "custom" events a club admin creates
+// at runtime on the Dashboard, so they show up everywhere else too.
+// Everyone should read events through this file — never import the raw
+// `events` array from mockData.js directly.
 
-import { events as seedEvents } from "../data/mockData";
+import { events as mockEvents } from "../data/mockData";
 
 const CUSTOM_EVENTS_KEY = "campushub_custom_events";
 
 function readCustomEvents() {
   try {
-    const raw = JSON.parse(localStorage.getItem(CUSTOM_EVENTS_KEY));
-    return Array.isArray(raw) ? raw : [];
+    const raw = localStorage.getItem(CUSTOM_EVENTS_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    // Corrupted localStorage shouldn't crash the app.
     return [];
   }
 }
 
 function writeCustomEvents(list) {
   localStorage.setItem(CUSTOM_EVENTS_KEY, JSON.stringify(list));
-  // `storage` events only fire in *other* tabs, not the one that made the
-  // change, so we also dispatch a custom event for same-tab listeners.
+  // The native "storage" event only fires in *other* tabs, not the one
+  // that made the change, so we also dispatch a same-tab custom event.
+  // Components that want to stay in sync with edits/deletes made
+  // elsewhere (e.g. the Dashboard) can do:
+  //   useEffect(() => {
+  //     const onUpdate = () => setEvents(getAllEvents());
+  //     window.addEventListener("campushub:events-updated", onUpdate);
+  //     return () => window.removeEventListener("campushub:events-updated", onUpdate);
+  //   }, []);
   window.dispatchEvent(new CustomEvent("campushub:events-updated"));
 }
 
+/** Just the admin-created events. */
 export function getCustomEvents() {
   return readCustomEvents();
 }
 
+/** Static seed events + custom events, combined. */
 export function getAllEvents() {
-  return [...seedEvents, ...readCustomEvents()];
+  return [...mockEvents, ...readCustomEvents()];
 }
 
 /**
- * Creates a new custom event, or updates one in place if `event.id` already
- * matches an existing custom event (this is what makes "Edit" work — the
- * Dashboard passes the existing id back in on save).
+ * Create or update a custom event and persist it.
+ * If `event.id` matches an existing custom event, it's updated in place;
+ * otherwise a new one is created with id `custom-${Date.now()}`.
  */
 export function saveCustomEvent(event) {
-  const list = readCustomEvents();
-  const existingIndex = event.id
-    ? list.findIndex((e) => e.id === event.id)
-    : -1;
+  const all = readCustomEvents();
+  const existingIndex = all.findIndex((e) => e.id === event.id);
+  const eventToSave = { ...event, id: event.id || `custom-${Date.now()}` };
 
   if (existingIndex >= 0) {
-    list[existingIndex] = { ...list[existingIndex], ...event };
+    all[existingIndex] = eventToSave;
   } else {
-    list.push({ ...event, id: `custom-${Date.now()}` });
+    all.push(eventToSave);
   }
 
-  writeCustomEvents(list);
+  writeCustomEvents(all);
+  return eventToSave;
 }
 
-// NEW — peer review: delete was entirely missing from v1.
+/** Delete a custom event by id (does nothing to seed events). */
 export function deleteCustomEvent(eventId) {
-  const list = readCustomEvents().filter((e) => e.id !== eventId);
-  writeCustomEvents(list);
+  const remaining = readCustomEvents().filter((e) => e.id !== eventId);
+  writeCustomEvents(remaining);
+  return remaining;
 }
