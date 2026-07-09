@@ -1,32 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { clubs, CATEGORIES } from "../data/mockData";
 import { getAllEvents } from "../utils/eventsStore";
 import ClubCard from "../components/ClubCard";
 import EventCard from "../components/EventCard";
 import styles from "./Home.module.css";
 
+// Custom hook for 300ms Search Debouncing
+function useDebounce(value, delay = 300) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 export default function Home() {
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState("clubs");
 
+  // Apply the 300ms debounce to the search string
+  const debouncedSearch = useDebounce(search, 300);
+
+  // Filter Clubs with Expanded Parameters (Name, Tags, and Description)
   const filteredClubs = clubs.filter((club) => {
     const matchesCategory = category === "All" || club.category === category;
+    
+    const searchLower = debouncedSearch.toLowerCase();
     const matchesSearch =
-      club.name.toLowerCase().includes(search.toLowerCase()) ||
-      club.tags.some((tag) => tag.toLowerCase().includes(search.toLowerCase()));
+      club.name.toLowerCase().includes(searchLower) ||
+      club.description.toLowerCase().includes(searchLower) || // Added description
+      club.tags.some((tag) => tag.toLowerCase().includes(searchLower));
+
     return matchesCategory && matchesSearch;
   });
 
+  // Filter and Sort Events with Dynamic Date Parsing
   const upcomingEvents = getAllEvents()
     .filter((event) => {
       const matchesCategory = category === "All" || event.category === category;
+      
+      const searchLower = debouncedSearch.toLowerCase();
       const matchesSearch =
-        event.title.toLowerCase().includes(search.toLowerCase()) ||
-        event.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase()));
+        event.title.toLowerCase().includes(searchLower) ||
+        event.tags?.some((tag) => tag.toLowerCase().includes(searchLower));
+
       return matchesCategory && matchesSearch;
     })
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+    // Explicit dynamic date sorting via timestamp parsing
+    .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
   return (
     <div className={styles.page}>
@@ -38,7 +68,7 @@ export default function Home() {
       <section className={styles.controls}>
         <input
           type="text"
-          placeholder="Search by name or tags..."
+          placeholder="Search by name, description, or tags..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className={styles.searchInput}
@@ -86,7 +116,11 @@ export default function Home() {
                 <ClubCard key={club.id} club={club} />
               ))
             ) : (
-              <p className={styles.emptyState}>No clubs found matching your criteria.</p>
+              /* Dedicated Empty State UI Component */
+              <div className={styles.emptyStateBox}>
+                <h3>No Clubs Found</h3>
+                <p>We couldn't find any clubs matching "{debouncedSearch}". Try checking your spelling or changing filters.</p>
+              </div>
             )}
           </div>
         ) : (
@@ -96,7 +130,11 @@ export default function Home() {
                 <EventCard key={event.id} event={event} />
               ))
             ) : (
-              <p className={styles.emptyState}>No upcoming events found matching your criteria.</p>
+              /* Dedicated Empty State UI Component */
+              <div className={styles.emptyStateBox}>
+                <h3>No Upcoming Events Found</h3>
+                <p>No events match your current criteria. Try looking under a different category.</p>
+              </div>
             )}
           </div>
         )}

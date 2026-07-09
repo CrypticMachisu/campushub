@@ -52,3 +52,16 @@
   grid-column: 1 / -1;
   padding: var(--space-xl, 3rem);
 }
+.emptyStateBox {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem var(--space-lg, 2rem);
+  background: #f9f9f9;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  color: #555;
+}
+.emptyStateBox h3 {
+  margin-bottom: 0.5rem;
+  color: #222;
+}

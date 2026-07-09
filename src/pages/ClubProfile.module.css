@@ -58,14 +58,20 @@
   font-style: italic;
 }
 .sectionDivider {
-  margin: var(--space-xl, 3rem) 0;
+  margin: var(--space-xl, 3rem) 0 0 0;
   border: 0;
-  border-top: 1px solid #eee;
+  border-top: 2px solid #e0e0e0;
 }
+
 .commentsWrapper {
-  margin-top: var(--space-lg, 2rem);
-  padding-top: var(--space-md, 1rem);
+  margin-top: 0;
+  padding: var(--space-xl, 2rem);
+  background-color: #f7f9fa; /* Distinct layout tint separation */
+  border-radius: 0 0 12px 12px;
+  border: 1px solid #edf1f2;
+  border-top: none;
 }
+
 .notFoundPage {
   text-align: center;
   padding: var(--space-xl, 3rem);

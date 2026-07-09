@@ -19,9 +19,10 @@ export default function ClubProfile() {
     );
   }
 
+  // Fetch, filter, and dynamically parse timestamps for strict date sorting
   const clubEvents = getAllEvents()
     .filter((e) => e.clubId === club.id)
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+    .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
   return (
     <div className={styles.page}>
@@ -56,12 +57,16 @@ export default function ClubProfile() {
             ))}
           </div>
         ) : (
-          <p className={styles.noEvents}>No upcoming events scheduled for this club yet.</p>
+          <div className={styles.emptyStateBox}>
+            <p>No upcoming events scheduled for this club yet.</p>
+          </div>
         )}
       </section>
 
+      {/* Semantic HR Divider providing comment separation layout */}
       <hr className={styles.sectionDivider} />
 
+      {/* Distinctly background tinted section wrapper for comments */}
       <section className={styles.commentsWrapper}>
         <h2>Club Discussion</h2>
         <CommentSection targetType="club" targetId={club.id} />
