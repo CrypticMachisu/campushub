@@ -1,7 +1,7 @@
 
 
 // src/utils/dashboardStorage.js
-// Person 4's file — announcements only, per 00-shared-contracts.md §2.
+// announcements only, per 00-shared-contracts.md §2.
 
 const ANNOUNCEMENTS_KEY = "campushub_announcements";
 

@@ -1,6 +1,6 @@
 // Wraps localStorage for managing event sign-ups.
 // Shared contract: 00-shared-contracts.md §4 — don't rename exports,
-// Person 2/3/4 all import these directly.
+
 //
 // v2: sign-ups are keyed to a logged-in account's userId instead of a
 // free-typed name/email. Name/email are snapshotted from mockUsers at
