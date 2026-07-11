@@ -3,11 +3,17 @@
 
 //
 // v2: sign-ups are keyed to a logged-in account's userId instead of a
-// free-typed name/email. Name/email are snapshotted from mockUsers at
-// signup time so historical signups still display correctly even if
-// mock data changes later.
+// free-typed name/email. Name/email are snapshotted at signup time so
+// historical signups still display correctly even if account data
+// changes later.
+//
+// v3: looks users up via authStore.getAllUsers() instead of importing
+// the static mockUsers list directly — accounts created at runtime via
+// the sign-up form only exist in authStore's custom-users storage, so
+// importing mockUsers here would silently fail to find them and
+// saveSignup() would return null for every brand-new member.
 
-import { users } from "../data/mockUsers";
+import { getAllUsers } from "./authStore";
 
 const SIGNUPS_KEY = "campushub_signups";
 
@@ -26,9 +32,10 @@ function writeSignups(signups) {
 }
 
 /**
- * Save a new signup for a logged-in user. Looks the user up in
- * mockUsers, snapshots their name/email onto the signup, generates
- * id + createdAt, persists it, and returns the full saved object.
+ * Save a new signup for a logged-in user. Looks the user up across
+ * both seed and runtime-created accounts, snapshots their name/email
+ * onto the signup, generates id + createdAt, persists it, and returns
+ * the full saved object.
  * Returns null (does not throw) if userId doesn't match a real user.
  * If the user is already signed up for this event, returns the
  * existing signup instead of creating a duplicate (peer review:
@@ -36,7 +43,7 @@ function writeSignups(signups) {
  * @param {{ eventId: string, userId: string }} signup
  */
 export function saveSignup({ eventId, userId }) {
-  const user = users.find((u) => u.id === userId);
+  const user = getAllUsers().find((u) => u.id === userId);
   if (!user) return null;
 
   const signups = readSignups();

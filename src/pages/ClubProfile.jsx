@@ -30,7 +30,7 @@ export default function ClubProfile() {
       {/* Structural Profile Banner Header */}
       <header className={styles.clubHeader}>
         <div className={styles.headerMain}>
-          <img src={club.logo} alt={`${club.name} logo`} className={styles.logo} />
+        <img src={club.logoUrl} alt={`${club.name} logo`} className={styles.logo} />
           <div>
             <span className={styles.categoryBadge}>{club.category}</span>
             <h1>{club.name}</h1>
