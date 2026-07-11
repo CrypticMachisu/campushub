@@ -30,7 +30,7 @@ export const clubs = [
     category: "Academic",
     description:
       "Weekly parliamentary-style debates and coaching for regional and national tournaments.",
-    logoUrl: "https://placehold.co/200x200?text=Debate",
+    logoUrl: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=200",
     meetingTime: "Tuesdays, 6:00 PM",
     meetingLocation: "Humanities Hall, Room 214",
     tags: ["public-speaking", "competitive", "writing"],
@@ -41,7 +41,7 @@ export const clubs = [
     category: "Arts & Culture",
     description:
       "A photography and film club for students who want to shoot, edit, and screen their work together.",
-    logoUrl: "https://placehold.co/200x200?text=Lens",
+    logoUrl: "https://images.unsplash.com/photo-1554080353-a576cf803bda?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=200",
     meetingTime: "Wednesdays, 5:30 PM",
     meetingLocation: "Fine Arts Building, Studio 3",
     tags: ["photography", "film", "creative"],
@@ -52,7 +52,7 @@ export const clubs = [
     category: "Sports & Fitness",
     description:
       "Casual and competitive group runs around campus and the river trail, all paces welcome.",
-    logoUrl: "https://placehold.co/200x200?text=Run",
+    logoUrl: "https://images.unsplash.com/photo-1739368732843-800f36a9b7d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=200",
     meetingTime: "Mon/Thu, 6:30 AM",
     meetingLocation: "Meet at the Rec Center steps",
     tags: ["running", "fitness", "outdoors"],
@@ -63,7 +63,7 @@ export const clubs = [
     category: "Technology",
     description:
       "Hands-on workshops, hackathon prep, and project nights for anyone into building software.",
-    logoUrl: "https://placehold.co/200x200?text=Byte",
+    logoUrl: "https://images.unsplash.com/photo-1758270705317-3ef6142d306f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=200",
     meetingTime: "Thursdays, 7:00 PM",
     meetingLocation: "Engineering Building, Lab 108",
     tags: ["coding", "hackathon", "workshops"],
@@ -74,7 +74,7 @@ export const clubs = [
     category: "Community Service",
     description:
       "Student-run tutoring for local middle schoolers in math and reading, transport provided.",
-    logoUrl: "https://placehold.co/200x200?text=Tutors",
+    logoUrl: "https://images.unsplash.com/photo-1629360057380-18b15b42e650?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=200",
     meetingTime: "Saturdays, 10:00 AM",
     meetingLocation: "Vans depart from Student Union",
     tags: ["volunteering", "education", "community"],
@@ -85,7 +85,7 @@ export const clubs = [
     category: "Social",
     description:
       "Monthly themed hangouts, game nights, and pop-up food events for meeting people outside your major.",
-    logoUrl: "https://placehold.co/200x200?text=Social",
+    logoUrl:"https://images.unsplash.com/photo-1528605248644-14dd04022da1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=200",
     meetingTime: "First Friday of the month, 7:00 PM",
     meetingLocation: "Courtyard, Building C",
     tags: ["social", "games", "food"],
@@ -102,7 +102,7 @@ export const events = [
     date: daysFromNow(3),
     time: "18:00",
     location: "Humanities Hall, Room 214",
-    imageUrl: "https://placehold.co/600x300?text=Debate+Night",
+    imageUrl: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=600",
   },
   {
     id: "event-02",
@@ -113,7 +113,7 @@ export const events = [
     date: daysFromNow(10),
     time: "17:30",
     location: "Humanities Hall, Room 214",
-    imageUrl: "https://placehold.co/600x300?text=Tournament+Prep",
+    imageUrl: "https://images.stockcake.com/public/5/a/7/5a7c8768-76aa-49b1-95fc-1417b140d01a_large/intense-chess-match-stockcake.jpg",
   },
   {
     id: "event-03",
@@ -124,7 +124,7 @@ export const events = [
     date: daysFromNow(2),
     time: "19:00",
     location: "Meet at the Quad fountain",
-    imageUrl: "https://placehold.co/600x300?text=Photowalk",
+    imageUrl: "https://images.unsplash.com/photo-1497316730643-415fac54a2af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=600",
   },
   {
     id: "event-04",
@@ -135,7 +135,7 @@ export const events = [
     date: daysFromNow(14),
     time: "20:00",
     location: "Fine Arts Building, Studio 3",
-    imageUrl: "https://placehold.co/600x300?text=Screening+Night",
+    imageUrl: "https://media.istockphoto.com/id/2193009902/photo/happy-audience-applauding-after-movie-premiere-at-cinema.jpg?s=612x612&w=0&k=20&c=nLatS-1SjCrTQZ9-GFpkptrFrdWzgImRryC5bGnbpsE=",
   },
   {
     id: "event-05",
@@ -146,7 +146,7 @@ export const events = [
     date: daysFromNow(1),
     time: "06:30",
     location: "Rec Center steps",
-    imageUrl: "https://placehold.co/600x300?text=River+Trail+5K",
+    imageUrl: "https://images.unsplash.com/photo-1745790289741-12a211a8325d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTg5NzQyMzM&ixlib=rb-4.0.3&q=80&w=600",
   },
   {
     id: "event-06",
@@ -157,7 +157,7 @@ export const events = [
     date: daysFromNow(8),
     time: "06:30",
     location: "Campus Track",
-    imageUrl: "https://placehold.co/600x300?text=Interval+Training",
+    imageUrl: "https://media.istockphoto.com/id/2164767186/photo/child-athlete-stretching-on-the-running-track.jpg?s=612x612&w=0&k=20&c=8hyIM8oxK_mzNql9_aOx2ff89haQZOUp8ADJ1PGl59c=",
   },
   {
     id: "event-07",
@@ -168,7 +168,7 @@ export const events = [
     date: daysFromNow(4),
     time: "19:00",
     location: "Engineering Building, Lab 108",
-    imageUrl: "https://placehold.co/600x300?text=Hackathon+Kickoff",
+    imageUrl: "https://images.stockcake.com/public/2/e/e/2ee809d0-2c47-4406-9ed6-da53d72f0e0b_large/hackathon-event-buzz-stockcake.jpg",
   },
   {
     id: "event-08",
@@ -179,7 +179,7 @@ export const events = [
     date: daysFromNow(16),
     time: "18:30",
     location: "Engineering Building, Lab 108",
-    imageUrl: "https://placehold.co/600x300?text=React+Workshop",
+    imageUrl: "https://media.istockphoto.com/id/2162645329/photo/teamwork-meeting-and-ideas-for-solution-or-decision-for-business-workplace-or-company-group.jpg?s=612x612&w=0&k=20&c=GTm_8uuh-QYmJQrWh2eNiQxVxaw-Vq7tN36GtjH44hc=",
   },
   {
     id: "event-09",
@@ -190,7 +190,7 @@ export const events = [
     date: daysFromNow(3),
     time: "10:00",
     location: "Vans depart from Student Union",
-    imageUrl: "https://placehold.co/600x300?text=Tutoring+Session",
+    imageUrl: "https://media.istockphoto.com/id/1998218845/photo/teacher-giving-tutoring-a-group-of-students-at-a-community-college.jpg?s=612x612&w=0&k=20&c=lccxQ8kbG3B75SnIhE6z89LzO8hoEFvYt5JiDr9bjYA=",
   },
   {
     id: "event-10",
@@ -201,7 +201,7 @@ export const events = [
     date: daysFromNow(11),
     time: "11:00",
     location: "Student Union, Room 102",
-    imageUrl: "https://placehold.co/600x300?text=Supply+Drive",
+    imageUrl: "https://media.istockphoto.com/id/1164996313/photo/children-volunteering-at-school-supply-donation-drive-at-elementary-school.jpg?s=612x612&w=0&k=20&c=DpN0BHyr6YyiZElgA-jPxHgJDCHDzeW2OQeq_3uGZzk=",
   },
   {
     id: "event-11",
@@ -212,7 +212,7 @@ export const events = [
     date: daysFromNow(2),
     time: "19:00",
     location: "Courtyard, Building C",
-    imageUrl: "https://placehold.co/600x300?text=Night+Market",
+    imageUrl:"https://images.stockcake.com/public/b/9/5/b95fe362-ee89-48ac-bae3-acfe181981a8_large/food-truck-festival-stockcake.jpg",
   },
   {
     id: "event-12",
@@ -223,6 +223,6 @@ export const events = [
     date: daysFromNow(17),
     time: "19:30",
     location: "Courtyard, Building C",
-    imageUrl: "https://placehold.co/600x300?text=Trivia+Night",
+    imageUrl: "https://static.vecteezy.com/system/resources/thumbnails/070/862/969/small/group-of-friends-having-fun-and-competing-in-a-pub-trivia-night-photo.jpg",
   },
 ];

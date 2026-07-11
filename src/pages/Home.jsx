@@ -1,90 +1,147 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import { clubs, CATEGORIES } from "../data/mockData";
 import { getAllEvents } from "../utils/eventsStore";
 import ClubCard from "../components/ClubCard";
 import EventCard from "../components/EventCard";
 import styles from "./Home.module.css";
 
-const HERO_IMAGES = [
-  "/images/campus-life.svg",
-  "/images/club-fair.svg",
-  "/images/game-night.svg",
-];
+/**
+ * Custom hook to debounce fast-changing state values.
+ * Prevents unnecessary re-filtering on rapid keystrokes.
+ */
+function useDebounce(value, delay = 300) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [category, setCategory] = useState("All");
+  const [search, setSearch] = useState("");
+  const [viewMode, setViewMode] = useState("clubs");
 
-  const allEvents = useMemo(() => getAllEvents(), []);
+  // Rule 2: 300ms input debouncing execution
+  const debouncedSearch = useDebounce(search, 300);
 
-  const upcomingEvents = useMemo(() => {
-    return [...allEvents]
-      .filter((e) => e.date >= "2026-07-08")
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(0, 6);
-  }, [allEvents]);
+  // Filter Clubs: Matches category, name, tags, and expanded description parameter
+  const filteredClubs = clubs.filter((club) => {
+    const matchesCategory = category === "All" || club.category === category;
+    const searchLower = debouncedSearch.toLowerCase();
+    
+    const matchesSearch =
+      club.name.toLowerCase().includes(searchLower) ||
+      club.description.toLowerCase().includes(searchLower) || // Rule 2: Expanded search
+      club.tags.some((tag) => tag.toLowerCase().includes(searchLower));
 
-  const visibleClubs = useMemo(() => {
-    if (activeCategory === "All") return clubs;
-    return clubs.filter((c) => c.category === activeCategory);
-  }, [activeCategory]);
+    return matchesCategory && matchesSearch;
+  });
 
-  function clubName(clubId) {
-    return clubs.find((c) => c.id === clubId)?.name;
-  }
+  // Filter and Sort Events: Uses precise dynamic timestamp parsing
+  const upcomingEvents = getAllEvents()
+    .filter((event) => {
+      const matchesCategory = category === "All" || event.category === category;
+      const searchLower = debouncedSearch.toLowerCase();
+      
+      const matchesSearch =
+        event.title.toLowerCase().includes(searchLower) ||
+        event.tags?.some((tag) => tag.toLowerCase().includes(searchLower));
+
+      return matchesCategory && matchesSearch;
+    })
+    // Rule 2: Explicit timestamp sorting fallback mechanism
+    .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
   return (
-    <div className="container">
-      <section className={styles.hero}>
-        <div className={styles.photoStack} aria-hidden="true">
-          <img src={HERO_IMAGES[0]} alt="" className={`${styles.photo} ${styles.photoA}`} />
-          <img src={HERO_IMAGES[1]} alt="" className={`${styles.photo} ${styles.photoB}`} />
-          <img src={HERO_IMAGES[2]} alt="" className={`${styles.photo} ${styles.photoC}`} />
-        </div>
+    <div className={styles.page}>
+      <header className={styles.header}>
+        <h1>CampusHub Discovery</h1>
+        <p>Find your community and upcoming campus events</p>
+      </header>
 
-        <div className={styles.heroText}>
-          <h1 className={styles.title}>Find your people on campus</h1>
-          <p className={styles.subtitle}>
-            Browse clubs, discover upcoming events, and sign up in a couple of taps.
-          </p>
-          <div className={styles.chips}>
+      {/* Inputs and Control Center */}
+      <section className={styles.controls}>
+        <input
+          type="text"
+          placeholder="Search by name, description, or tags..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className={styles.searchInput}
+        />
+
+        <div className={styles.filterGroup}>
+          <button
+            onClick={() => setCategory("All")}
+            className={category === "All" ? styles.activeFilter : styles.filterBtn}
+          >
+            All Categories
+          </button>
+          {CATEGORIES.map((cat) => (
             <button
-              className={activeCategory === "All" ? `${styles.chip} ${styles.chipActive}` : styles.chip}
-              onClick={() => setActiveCategory("All")}
+              key={cat}
+              onClick={() => setCategory(cat)}
+              className={category === cat ? styles.activeFilter : styles.filterBtn}
             >
-              All
+              {cat}
             </button>
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                className={activeCategory === cat ? `${styles.chip} ${styles.chipActive}` : styles.chip}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
+          ))}
+        </div>
+
+        <div className={styles.toggleGroup}>
+          <button 
+            onClick={() => setViewMode("clubs")} 
+            className={viewMode === "clubs" ? styles.activeToggle : styles.toggleBtn}
+          >
+            Browse Clubs
+          </button>
+          <button 
+            onClick={() => setViewMode("events")} 
+            className={viewMode === "events" ? styles.activeToggle : styles.toggleBtn}
+          >
+            Browse Events
+          </button>
+        </div>
+      </section>
+
+      {/* Main Layout Content Grids */}
+      <main className={styles.content}>
+        {viewMode === "clubs" ? (
+          <div className={styles.grid}>
+            {filteredClubs.length > 0 ? (
+              filteredClubs.map((club) => (
+                <ClubCard key={club.id} club={club} />
+              ))
+            ) : (
+              /* Rule 2: Dedicated empty state UI component */
+              <div className={styles.emptyStateBox}>
+                <h3>No Clubs Found</h3>
+                <p>We couldn't find any clubs matching "{debouncedSearch}". Try modifying your parameters.</p>
+              </div>
+            )}
           </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Upcoming events</h2>
-        <div className={styles.eventGrid}>
-          {upcomingEvents.map((event) => (
-            <EventCard key={event.id} event={event} clubName={clubName(event.clubId)} />
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          {activeCategory === "All" ? "All clubs" : activeCategory}
-        </h2>
-        <div className={styles.clubGrid}>
-          {visibleClubs.map((club) => (
-            <ClubCard key={club.id} club={club} />
-          ))}
-        </div>
-      </section>
+        ) : (
+          <div className={styles.grid}>
+            {upcomingEvents.length > 0 ? (
+              upcomingEvents.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))
+            ) : (
+              /* Rule 2: Dedicated empty state UI component */
+              <div className={styles.emptyStateBox}>
+                <h3>No Upcoming Events Found</h3>
+                <p>No results match your search keywords under this tab category.</p>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
     </div>
   );
 }
